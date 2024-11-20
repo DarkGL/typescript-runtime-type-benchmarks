@@ -1,7 +1,6 @@
-// @ts-check
-
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
+import globals from 'globals'
 
 export default tseslint.config(
     eslint.configs.recommended,
@@ -9,6 +8,7 @@ export default tseslint.config(
     tseslint.configs.stylistic,
     {
         files: ['**/*.ts'],
+        ignores: ['**/*.js'],
         languageOptions: {
             parserOptions: {
                 project: './tsconfig.json',
@@ -16,6 +16,10 @@ export default tseslint.config(
                 sourceType: 'module',
                 tsconfigRootDir: import.meta.dirname,
             },
+            globals: {
+                ...globals.jest,
+                ...globals.node,
+            }
         },
         rules: {
             "node/no-unpublished-import": "off",
@@ -28,7 +32,7 @@ export default tseslint.config(
             ],
             "@typescript-eslint/consistent-type-exports": "error",
             "@typescript-eslint/no-import-type-side-effects": "error"
-        }
+        },
     },
     {
         files: ["docs/**/*.tsx", "docs/**/*.ts"],
@@ -39,6 +43,9 @@ export default tseslint.config(
                 sourceType: 'module',
                 tsconfigRootDir: import.meta.dirname,
             },
+            globals: {
+                ...globals.browser,
+            }
         },
     }
 );
